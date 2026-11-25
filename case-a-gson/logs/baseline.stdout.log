@@ -4,11 +4,11 @@ mode: baseline
 artifact: gson jar built from repo @ 828a97b (gson-parent-2.11.0)
 input: streamed '[' characters (O(1) reader memory); heap growth is parser state only
 depth=1,000,000  maxStackSize=1,000,000  timeMs=35  heapUsedKB(approx)=16,377
-        after close, heapUsedKB(approx)=16,579 (state released)
+        after close, heapUsedKB(approx)=16,579
 depth=2,000,000  maxStackSize=2,000,000  timeMs=52  heapUsedKB(approx)=28,579
-        after close, heapUsedKB(approx)=991 (state released)
+        after close, heapUsedKB(approx)=991
 depth=4,000,000  maxStackSize=4,000,000  timeMs=93  heapUsedKB(approx)=53,155
-        after close, heapUsedKB(approx)=1,011 (state released)
+        after close, heapUsedKB(approx)=1,011
 effect: JsonReader state arrays (stack, pathIndices, pathNames) grow linearly
         with attacker-chosen nesting depth via push(); no depth is refused.
 effect: now driving the same parse on a bounded heap until the outcome occurs:

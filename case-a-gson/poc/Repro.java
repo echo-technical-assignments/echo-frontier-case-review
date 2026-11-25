@@ -77,7 +77,7 @@ public class Repro {
     r.close();
     System.gc();
     Thread.sleep(100);
-    System.out.printf("        after close, heapUsedKB(approx)=%,d (state released)%n", usedKb());
+    System.out.printf("        after close, heapUsedKB(approx)=%,d%n", usedKb());
   }
 
   /**

@@ -1,2 +1,2 @@
-{"cmd": "sh poc/run.sh baseline > logs/baseline.stdout.log 2> logs/baseline.stderr.log", "exit": 0}
-{"cmd": "sh poc/run.sh control > logs/control.stdout.log 2> logs/control.stderr.log", "exit": 0}
+{"cmd": "sh poc/run.sh baseline > logs/baseline.stdout.log", "exit": 0}
+{"cmd": "sh poc/run.sh control > logs/control.stdout.log", "exit": 0}
