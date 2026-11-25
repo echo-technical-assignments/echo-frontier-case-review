@@ -1,0 +1,19 @@
+artifact: PHP CLI /tmp/tmpefjqbpgo/poc/../repo/sapi/cli/php
+php-sha256 be9da17782203e6f2172eb00f663fb65e9f27bb872cd02d9da29bcc811b4f7d1
+mode=control port=52357
+mode=control PHP=8.5.12
+calling ftp_connect(127.0.0.1, 52357) (no SSL requested)...
+connect returned an FTP\Connection object; calling ftp_login(user, secret-PASSWORD)...
+ftp_login() => true
+[plain] USER ftpuser
+NO-AUTH-TLS-RECEIVED: client never upgraded to TLS
+[plain] PASS secret-PASSWORD
+no TLS handshake attempted by either side; credentials stayed on the plaintext channel, no certificate was presented or accepted
+systype: false
+CONTROL: plain FTP login (expected, no TLS involved)
+---- MITM server log (control) ----
+[plain] USER ftpuser
+NO-AUTH-TLS-RECEIVED: client never upgraded to TLS
+[plain] PASS secret-PASSWORD
+------------------------------------
+CONTROL-OK: no TLS handshake, no self-signed certificate accepted, no TLS credentials captured; the ssl_connect sink was not reached
