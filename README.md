@@ -17,7 +17,7 @@ saw it. Your job is to decide whether each one is ready to send, and to say why.
 - **Reject** it, with one reason:
   - `not_vulnerability`: it reproduces, but no security boundary is crossed
   - `not_reproducible`: the claimed behaviour doesn't happen
-  - `already_public`: a CVE, GHSA or OSV entry already covers it
+  - `already_public`: already publicly known (a CVE, GHSA or OSV entry, a released fix, vendor docs or a public tracker issue covers it)
   - `duplicate`: another case already covers the same bug
   - `out_of_scope`: the code isn't in what users install (CI, docs, dev scripts)
   - `parked:lower_severity`: real, but much less severe than claimed, so it waits
