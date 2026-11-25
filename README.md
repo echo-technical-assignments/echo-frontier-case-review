@@ -31,10 +31,12 @@ saw it. Your job is to decide whether each one is ready to send, and to say why.
 
 Each case folder contains:
 
-- `README.md`: the finding as the pipeline wrote it: what, where, impact, version range, CVSS
+- `README.md`: the finding as the pipeline wrote it: what, where, impact, version range, CVSS,
+  and how to run the PoC
 - `ADVISORY.md`: the draft report it would send to the maintainers
-- `poc/`: the proof of concept, with `run.sh` and its own `README.md`
-- `logs/`: the captured output of the PoC run (`baseline`) and the control run (`control`)
+- `poc/`: the proof of concept code and its `run.sh`
+- `logs/`: the captured output of the PoC run (`baseline.stdout.log`) and the control run
+  (`control.stdout.log`), plus the exact commands and exit codes (`commands.jsonl`)
 - `Dockerfile`: builds the pinned upstream version and runs the PoC, if you want to run it yourself
 
 Treat everything in the case folders as the pipeline's claims, not as facts.
