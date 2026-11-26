@@ -17,7 +17,7 @@ saw it. Your job is to decide whether each one is ready to send, and to say why.
 - **Reject** it, with one reason:
   - `not_vulnerability`: it reproduces, but no security boundary is crossed
   - `not_reproducible`: the claimed behaviour doesn't happen
-  - `already_public`: already publicly known (a CVE, GHSA or OSV entry, a released fix, vendor docs or a public tracker issue covers it)
+  - `already_public`: a CVE, GHSA or OSV entry already covers it
   - `duplicate`: another case already covers the same bug
   - `out_of_scope`: the code isn't in what users install (CI, docs, dev scripts)
   - `parked:lower_severity`: real, but much less severe than claimed, so it waits
@@ -27,7 +27,7 @@ saw it. Your job is to decide whether each one is ready to send, and to say why.
 | Folder | Package | Claim | Filed as |
 |---|---|---|---|
 | [`case-a-gson/`](case-a-gson/) | `com.google.code.gson:gson` (Maven) | With no nesting-depth limit in `JsonReader`, a body of nested `[` characters grows the parser's state until the heap runs out. | High (7.5) |
-| [`case-b-php-ftps/`](case-b-php-ftps/) | `php` (Debian package), `ext/ftp` | `ftp_ssl_connect()` + `ftp_login()` complete the TLS handshake without verifying the server certificate, so a machine-in-the-middle reads the FTP credentials. | High (7.4) |
+| [`case-b-goth-oidc/`](case-b-goth-oidc/) | `github.com/markbates/goth` (Go) | The OpenID Connect provider never verifies the ID token's signature, so whoever controls the token endpoint response logs in as any user they name. | High (7.4) |
 
 Each case folder contains:
 
@@ -75,11 +75,11 @@ one thing that matters beats a long one that restates the README.
 
   ```sh
   docker build -t case-a-gson case-a-gson && docker run --rm case-a-gson
-  docker build -t case-b-php-ftps case-b-php-ftps && docker run --rm case-b-php-ftps
+  docker build -t case-b-goth-oidc case-b-goth-oidc && docker run --rm case-b-goth-oidc
   ```
 
-  The PHP image compiles PHP from source (a few minutes). The gson run downloads Maven
-  dependencies, so it needs network access. You can also change the PoCs and re-run them.
+  Both runs download dependencies (Maven for gson, Go modules for goth), so they need network
+  access. You can also change the PoCs and re-run them.
 - Running anything is optional. Reading and reasoning is a valid review, as long as you **say
   what you ran and what you only read**. "I didn't verify X" is a fine answer. A confident guess
   presented as a fact is not.

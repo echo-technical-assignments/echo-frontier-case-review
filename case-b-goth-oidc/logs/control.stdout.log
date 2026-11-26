@@ -1,0 +1,9 @@
+built /tmp/tmp769gw79q/poc/../out/poc sha256 41cf33d40cac1703b3432522d8523f0e0f7169f07c94f14bc220ef9ad839ea04
+mode=control: id_token returned by the token endpoint is a REAL, correctly signed ES256 token (no forgery)
+code exchange done: session now carries id_token="eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJnb3RoLXRlc3QtY2xpZW50LWtleSIsImVtYWlsIjoidmljdGltQGV4YW1wbGUuY29tIiwiZXhwIjoxNzk0Njg3NDA5LCJpYXQiOjE3OTQ2ODM3NDksImlzcyI6Imh0dHA6Ly8xMjcuMC4wLjE6MzUyOTkiLCJuYW1lIjoiVmljdGltIFVzZXIiLCJwaWN0dXJlIjoiaHR0cDovL2V2aWwuZXhhbXBsZS9hdmF0YXIucG5nIiwic3ViIjoidmljdGltLXVzZXItMTIzNDUifQ.dm3xHzbt97rOjdIP9IEiQovtggouqafdgkjXWUpJHB3esMhnbc0RvZ8jcsDnDrbeD7bBQO-pCQFWhJVAtY0g6Q" (from the token endpoint response)
+FetchUser SUCCEEDED on the token from the attacker-controlled token endpoint
+authenticated user: UserID="victim-user-12345" Email="victim@example.com" Name="Victim User" Provider="openid-connect"
+RawData: map[aud:goth-test-client-key email:victim@example.com exp:1.794687409e+09 iat:1.794683749e+09 iss:http://127.0.0.1:35299 name:Victim User picture:http://evil.example/avatar.png sub:victim-user-12345]
+accepted token segments: header="eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9" payload_len=286 signature="dm3xHzbt97rOjdIP9IEiQovtggouqafdgkjXWUpJHB3esMhnbc0RvZ8jcsDnDrbeD7bBQO-pCQFWhJVAtY0g6Q"
+reference verifier (golang-jwt) accepts the control token (it is genuinely signed): true
+effect absent: the accepted token was a genuinely signed ID token, not a forged one, so the claimed effect (forged/unverifiable-signature token accepted) did not occur in this arm

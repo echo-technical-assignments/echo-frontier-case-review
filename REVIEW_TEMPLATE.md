@@ -1,4 +1,4 @@
-# Case review: <case-a-gson | case-b-php-ftps>
+# Case review: <case-a-gson | case-b-goth-oidc>
 
 - **Reviewer:**
 - **Time spent:**
