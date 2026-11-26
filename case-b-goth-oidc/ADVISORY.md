@@ -21,28 +21,11 @@ and signature segments, and no JWKS is fetched even though the discovery documen
 `UserID="victim-user-12345"`, `Email="victim@example.com"`, `Name="Victim User"`, while a
 reference verifier (golang-jwt, already a dependency) rejects the same token.
 
-The token endpoint's response is the only thing that authenticates the claims in an ID token.
-Here, whoever controls that response names the user:
-
-1. `providers/openidConnect/session.go:52-67` `Session.Authorize` performs the code exchange and
-   stores the `id_token` from the token endpoint response verbatim.
-2. `providers/openidConnect/openidConnect.go:510-523` `decodeJWT` splits the JWT on `.`, requires
-   three parts, and decodes only the payload. **The header and signature segments are discarded;
-   no key is ever used.**
-3. `providers/openidConnect/openidConnect.go:318-346` `validateClaims` checks only `aud`, `iss`
-   and `exp`, all values a forger sets freely.
-4. `providers/openidConnect/openidConnect.go:351` `userFromClaims` fills `goth.User.UserID`,
-   `Email` and `Name` from the unverified claims.
-
-#### Reachability
-
-- **Entry points:** `openidConnect.New` (discovery) → `BeginAuth` → `Session.Authorize` →
-  `Provider.FetchUser`; the same path `gothic.CompleteUserAuth` drives.
-- **Needs:** an attacker who can alter the token endpoint response, for example an identity
-  provider configured with an `http://` token_endpoint, which the library accepts, or weakened
-  TLS verification in the supplied `HTTPClient`.
-- **Doesn't help:** a configured userinfo endpoint; its response must then return the same `sub`,
-  which the same attacker position controls (read, not run).
+The session stores the `id_token` from the token endpoint response verbatim
+(`session.go:52-67`); `decodeJWT` splits it on `.` and decodes only the payload, discarding the
+header and signature (`openidConnect.go:510-523`); `validateClaims` then checks only `aud`, `iss`
+and `exp` (`openidConnect.go:318-346`), all values a forger sets freely, before `FetchUser` builds
+the `goth.User` from those claims.
 
 ### Impact
 

