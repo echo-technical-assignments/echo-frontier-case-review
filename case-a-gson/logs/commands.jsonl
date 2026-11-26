@@ -1,0 +1,2 @@
+{"command": "sh poc/run.sh baseline > logs/baseline.stdout.log", "exitCode": 0}
+{"command": "sh poc/run.sh control > logs/control.stdout.log", "exitCode": 0}

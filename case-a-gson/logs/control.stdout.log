@@ -1,0 +1,6 @@
+built artifact (reused): /tmp/tmpjy4p2tu9/poc/../out/src/gson/target/gson-2.11.0.jar
+sha256 8cabe31a1a6448b346f0dd2c536fee9578be117a9c2c995902bd43d931439385
+control: deep-nesting condition removed (input capped at depth 256)
+control: max stackSize 256 (capped input; stream ends at 256 brackets)
+control: JsonReader.push() stack-doubling growth absent; no unbounded heap growth
+control: no OutOfMemoryError

